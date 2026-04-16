@@ -1,0 +1,74 @@
+@startuml AGL_Pro_System
+
+' =========================
+' CLASSES DU SYSTEME E-COMMERCE
+' =========================
+
+class Utilisateur {
+- id: int          ' identifiant unique de l'utilisateur
+- nom: String      ' nom de l'utilisateur
+- email: String    ' email de connexion
+
++ seConnecter()    ' permet de se connecter
++ seDeconnecter()  ' permet de se déconnecter
+}
+
+class Visiteur {
++ consulterProduits()  ' voir les produits disponibles
++ ajouterAuPanier()    ' ajouter un produit au panier
+}
+
+class Client {
+- telephone: String    ' numéro de téléphone du client
+
++ passerCommande()     ' effectuer une commande
++ modifierCompte()     ' modifier ses informations
+}
+
+class Administrateur {
++ gererStock()         ' gérer les stocks des produits
++ gererProduits()      ' ajouter/modifier/supprimer produits
++ archiverUtilisateur()' désactiver un utilisateur
+}
+
+class Produit {
+- id: int
+- nom: String
+- prix: double
+- quantiteStock: int   ' quantité disponible
+
++ afficherDetails()        ' afficher les infos produit
++ verifierDisponibilite()  ' vérifier stock
+}
+
+class Categorie {
+- id: int
+- nomCategorie: String    ' ex: électronique, mode
+
++ ajouterProduit()        ' ajouter un produit à la catégorie
++ listerProduits()        ' afficher produits de la catégorie
+}
+
+class Stock {
+- dateEntree: Date       ' date d’entrée en stock
+
++ mettreAJourQuantite()   ' modifier quantité
++ alerterStockFaible()    ' alerte si stock bas
+}
+
+' =========================
+' RELATIONS ENTRE CLASSES
+' =========================
+
+' Héritage des utilisateurs
+Utilisateur <|-- Visiteur
+Visiteur <|-- Client
+Utilisateur <|-- Administrateur
+
+' Relation produit - catégorie
+Produit "*" -- "1" Categorie : appartient à
+
+' Relation produit - stock
+Produit "1" -- "1" Stock : gère
+
+@enduml
